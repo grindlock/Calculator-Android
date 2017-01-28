@@ -40,8 +40,10 @@
         android:padding="8dp"
         android:gravity="bottom|center"
         android:typeface="monospace"
-        android:textSize="50sp"
-        android:fontFamily="monospace" />
+        android:textSize="60sp"
+        android:fontFamily="monospace"
+        android:text="0"
+        android:textAlignment="textEnd" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
@@ -143,7 +145,8 @@
             android:id="@+id/divBtn"
             android:layout_weight="1"
             android:background="@drawable/button_oper"
-            android:textSize="36sp" />
+            android:textSize="36sp"
+            android:onClick="division" />
     </LinearLayout>
 
     <LinearLayout
@@ -200,7 +203,8 @@
             android:id="@+id/multBtn"
             android:layout_weight="1"
             android:background="@drawable/button_oper"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:onClick="multiplication" />
     </LinearLayout>
 
     <LinearLayout
@@ -257,7 +261,8 @@
             android:id="@+id/plusBtn"
             android:layout_weight="1"
             android:background="@drawable/button_oper"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:onClick="addition" />
     </LinearLayout>
 
     <LinearLayout
@@ -304,7 +309,8 @@
             android:id="@+id/equalBtn"
             android:background="@drawable/button_oper"
             android:layout_weight="0.68"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:onClick="equal" />
     </LinearLayout>
 
     <LinearLayout
@@ -362,7 +368,8 @@
             android:id="@+id/minus"
             android:layout_weight="1"
             android:background="@drawable/button_oper"
-            android:textSize="30sp" />
+            android:textSize="30sp"
+            android:onClick="subtraction" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -25,6 +25,17 @@ public class Calc_Screen extends AppCompatActivity {
     Button dot;
 
     public String txtOnScreen = "";
+    public String leftNum = "";
+    public String rightNum = "";
+
+
+    public enum Operations{
+        ADD, SUBTRACTION, DIVISION, MULTIPLICATION, EQUAL, EMPTY
+    }
+
+    Operations curOper;
+    int result = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,22 +77,34 @@ public class Calc_Screen extends AppCompatActivity {
 
     public void clearBtnPressed(View view){
         txtOnScreen = "";
-        //operator = "";
+        leftNum = "";
+        rightNum = "";
+        result = 0;
+        curOper = null;
         screen.setText(DEFAULT_TXT);
         playSound(OPER_SOUND);
     }
 
     public void chnageSignBtnPressed(View view){
-        if(!txtOnScreen.isEmpty()){
-            float n = Float.parseFloat(txtOnScreen) * -1;
-            txtOnScreen = String.valueOf(n);
+        txtOnScreen = screen.getText().toString();
+
+        if(!txtOnScreen.equals("0")|| !txtOnScreen.equals("0.") || !txtOnScreen.equals(DEFAULT_TXT)){
+            if(txtOnScreen.endsWith(".0")) {
+                float n = Float.parseFloat(txtOnScreen) * -1;
+                txtOnScreen = String.valueOf(n);
+            }
+            else{
+                int n = Integer.parseInt(txtOnScreen) * -1;
+                txtOnScreen = String.valueOf(n);
+            }
+
             screen.setText(txtOnScreen);
             playSound(OPER_SOUND);
         }
     }
 
     public void percentBtnPressed(View view){
-        if(!txtOnScreen.isEmpty()){
+        if(txtOnScreen != null){
             float n = Float.parseFloat(txtOnScreen) / 100;
             txtOnScreen = String.valueOf(n);
             screen.setText(txtOnScreen);
@@ -89,18 +112,71 @@ public class Calc_Screen extends AppCompatActivity {
         }
     }
 
+    public void division(View view){
+        processOperation(Operations.DIVISION);
+
+        playSound(OPER_SOUND);
+    }
+    public void multiplication(View view){
+        processOperation(Operations.MULTIPLICATION);
+        playSound(OPER_SOUND);
+    }
+    public void subtraction(View view){
+        processOperation(Operations.SUBTRACTION);
+        playSound(OPER_SOUND);
+    }
+    public void addition(View view){
+        processOperation(Operations.ADD);
+        playSound(OPER_SOUND);
+    }
+    public void equal(View view){
+        processOperation(Operations.EQUAL);
+
+        playSound(OPER_SOUND);
+    }
+
+    public void processOperation(Operations operation){
+        if(curOper != null){
+            if(txtOnScreen != null ){
+                rightNum = txtOnScreen;
+                txtOnScreen = "";
+
+                switch (curOper){
+                    case ADD:
+                        result = Integer.parseInt(leftNum) + Integer.parseInt(rightNum);
+                        break;
+                    case SUBTRACTION:
+                        result = Integer.parseInt(leftNum) - Integer.parseInt(rightNum);
+                        break;
+                    case DIVISION:
+                        result = Integer.parseInt(leftNum) / Integer.parseInt(rightNum);
+                        break;
+                    case MULTIPLICATION:
+                        result = Integer.parseInt(leftNum) * Integer.parseInt(rightNum);
+                        break;
+                }
+                leftNum = String.valueOf(result);
+                screen.setText(leftNum);
+            }
+        }
+        else{
+            leftNum = txtOnScreen;
+            txtOnScreen = "";
+        }
+        curOper = operation;
+    }
 
 
+    //This function plays the sound send
     public void playSound(String audio){
-
-
 
         Uri path = Uri.parse("android.resource://"+getPackageName()+"/raw/"+audio);
 
-        //Log.v("SOUND", path.toString());
+        Log.v("SOUND", path.toString());
 
         final MediaPlayer audioPlayer = MediaPlayer.create(this, path);
         audioPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        //This make sure to realease this resource before is use again.
         audioPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
             @Override
             public void onCompletion(MediaPlayer mp){
@@ -114,13 +190,6 @@ public class Calc_Screen extends AppCompatActivity {
                 mp.start();
             }
         });
-
     }
-
-
-
-
-
-
 
 }
