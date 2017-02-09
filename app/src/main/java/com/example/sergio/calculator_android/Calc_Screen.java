@@ -30,11 +30,11 @@ public class Calc_Screen extends AppCompatActivity {
 
 
     public enum Operations{
-        ADD, SUBTRACTION, DIVISION, MULTIPLICATION, EQUAL, EMPTY
+        ADD, SUBTRACTION, DIVISION, MULTIPLICATION, EQUAL
     }
 
     Operations curOper;
-    int result = 0;
+    double result = 0;
 
 
     @Override
@@ -62,15 +62,18 @@ public class Calc_Screen extends AppCompatActivity {
 
     }
 
-    //Here you attach the onClick function in the xml
+    //Here you attach this method to the onClick function in the xml
     public void numbersBtnPressed(View view){
         if(screen.getText().length() < 9){
+            //get the tag number that represent the number
             int tag = Integer.parseInt(view.getTag().toString());
-
+            //check if the number is between 0 and 9.
+            //if it appended to the variable.
             if(tag >= 0 && tag < 10){
                 txtOnScreen += tag;
             }
         }
+        //put on the screen the variable
         screen.setText(txtOnScreen);
         playSound(NUM_SOUND);
     }
@@ -88,24 +91,19 @@ public class Calc_Screen extends AppCompatActivity {
     public void chnageSignBtnPressed(View view){
         txtOnScreen = screen.getText().toString();
 
-        if(!txtOnScreen.equals("0")|| !txtOnScreen.equals("0.") || !txtOnScreen.equals(DEFAULT_TXT)){
-            if(txtOnScreen.endsWith(".0")) {
-                float n = Float.parseFloat(txtOnScreen) * -1;
-                txtOnScreen = String.valueOf(n);
-            }
-            else{
-                int n = Integer.parseInt(txtOnScreen) * -1;
-                txtOnScreen = String.valueOf(n);
-            }
+        if(!txtOnScreen.equals("0") && !txtOnScreen.equals("0.") && !txtOnScreen.equals(DEFAULT_TXT)){
+
+            double n = Double.parseDouble(txtOnScreen) * -1;
+            txtOnScreen = String.valueOf(n);
 
             screen.setText(txtOnScreen);
-            playSound(OPER_SOUND);
-        }
+        }else{txtOnScreen="";}
+        playSound(OPER_SOUND);
     }
 
     public void percentBtnPressed(View view){
         if(txtOnScreen != null){
-            float n = Float.parseFloat(txtOnScreen) / 100;
+            double n = Double.parseDouble(txtOnScreen) / 100;
             txtOnScreen = String.valueOf(n);
             screen.setText(txtOnScreen);
             playSound(OPER_SOUND);
@@ -114,7 +112,6 @@ public class Calc_Screen extends AppCompatActivity {
 
     public void division(View view){
         processOperation(Operations.DIVISION);
-
         playSound(OPER_SOUND);
     }
     public void multiplication(View view){
@@ -131,7 +128,6 @@ public class Calc_Screen extends AppCompatActivity {
     }
     public void equal(View view){
         processOperation(Operations.EQUAL);
-
         playSound(OPER_SOUND);
     }
 
@@ -143,22 +139,25 @@ public class Calc_Screen extends AppCompatActivity {
 
                 switch (curOper){
                     case ADD:
-                        result = Integer.parseInt(leftNum) + Integer.parseInt(rightNum);
+                        result = Double.parseDouble(leftNum) + Double.parseDouble(rightNum);
                         break;
                     case SUBTRACTION:
-                        result = Integer.parseInt(leftNum) - Integer.parseInt(rightNum);
+                        result = Double.parseDouble(leftNum) - Double.parseDouble(rightNum);
                         break;
                     case DIVISION:
-                        result = Integer.parseInt(leftNum) / Integer.parseInt(rightNum);
+                        result = Double.parseDouble(leftNum) / Double.parseDouble(rightNum);
                         break;
                     case MULTIPLICATION:
-                        result = Integer.parseInt(leftNum) * Integer.parseInt(rightNum);
+                        result = Double.parseDouble(leftNum) * Double.parseDouble(rightNum);
                         break;
                 }
+                //pass the result to the left number after the user pressed equal
+                // or another operation
                 leftNum = String.valueOf(result);
                 screen.setText(leftNum);
             }
         }
+        //
         else{
             leftNum = txtOnScreen;
             txtOnScreen = "";
@@ -177,6 +176,7 @@ public class Calc_Screen extends AppCompatActivity {
         final MediaPlayer audioPlayer = MediaPlayer.create(this, path);
         audioPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         //This make sure to realease this resource before is use again.
+
         audioPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener(){
             @Override
             public void onCompletion(MediaPlayer mp){
@@ -191,5 +191,7 @@ public class Calc_Screen extends AppCompatActivity {
             }
         });
     }
+
+
 
 }

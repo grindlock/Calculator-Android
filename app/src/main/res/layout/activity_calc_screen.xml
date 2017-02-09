@@ -38,7 +38,7 @@
         android:layout_marginBottom="16dp"
         android:backgroundTint="@android:color/background_light"
         android:padding="8dp"
-        android:gravity="bottom|center"
+        android:gravity="center|end"
         android:typeface="monospace"
         android:textSize="60sp"
         android:fontFamily="monospace"
@@ -164,15 +164,17 @@
         android:layout_marginBottom="2dp">
 
         <Button
-            android:text="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:srcCompat="@drawable/button_num"
             android:id="@+id/oneBtn"
             android:layout_weight="1"
-            android:background="@drawable/button_num"
-            android:textSize="30sp"
+            android:onClick="numbersBtnPressed"
             android:tag="1"
-            android:onClick="numbersBtnPressed"/>
+            android:adjustViewBounds="false"
+            android:background="@drawable/button_num"
+            android:text="1"
+            android:textSize="30sp" />
 
         <Button
             android:text="2"
